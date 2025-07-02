@@ -1,4 +1,5 @@
 package com.cdv.catalog
 
-interface `Blueprint'` {
+interface Blueprint<R> {
+    fun create(): R
 }

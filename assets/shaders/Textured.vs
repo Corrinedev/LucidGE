@@ -1,11 +1,13 @@
-#version 450 core
+#version 120
 
-in vec3 position;
-in vec2 uvs;
+attribute vec3 vertices;
+attribute vec2 textures;
 
-out vec2 pass_uvs;
+varying vec2 tex_coords;
 
-void main(void){
-	gl_Position = vec4(position, 1.0);
-	pass_uvs = uvs;
+uniform mat4 projection;
+
+void main() {
+	tex_coords = textures;
+	gl_Position = projection * vec4(vertices, 1);
 }

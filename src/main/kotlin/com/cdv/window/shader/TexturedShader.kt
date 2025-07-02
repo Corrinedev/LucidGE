@@ -1,4 +1,5 @@
 package com.cdv.window.shader
 
-class TexturedShader {
-}
+import org.joml.Matrix4f
+
+class TexturedShader() : Shader("Textured")

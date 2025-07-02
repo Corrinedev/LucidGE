@@ -1,4 +1,4 @@
-package com.cdv.window
+package com.cdv.window.texture
 
 class Texture(val glId: Int, val resource: String) {
 
