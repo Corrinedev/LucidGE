@@ -66,7 +66,7 @@ object Window : Runnable {
             )
 
             GLFW.glfwMakeContextCurrent(id)
-            GLFW.glfwSwapInterval(1)
+            GLFW.glfwSwapInterval(0)
             GLFW.glfwShowWindow(id)
         }
 

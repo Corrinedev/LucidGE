@@ -20,12 +20,12 @@ object Player : Entity("player", 0f, 0f), InputCallback {
 
    override fun keyCallback(key: Int, scancode: Int, pressed: Boolean, mods: Int) {
       if(!pressed) return
-         when (key) {
-            GLFW_KEY_W -> addMomentum(0f, 1f * Window.deltaTime)
-            GLFW_KEY_S -> addMomentum(0f, -1f * Window.deltaTime)
-            GLFW_KEY_A -> addMomentum(-1f * Window.deltaTime, 0f)
-            GLFW_KEY_D -> addMomentum(1f * Window.deltaTime, 0f)
-         }
+         //when (key) {
+         //   GLFW_KEY_W -> addMomentum(0f, 1f * Window.deltaTime)
+         //   GLFW_KEY_S -> addMomentum(0f, -1f * Window.deltaTime)
+         //   GLFW_KEY_A -> addMomentum(-1f * Window.deltaTime, 0f)
+         //   GLFW_KEY_D -> addMomentum(1f * Window.deltaTime, 0f)
+         //}
    }
 
    fun addMomentum(x: Float, y: Float) {
