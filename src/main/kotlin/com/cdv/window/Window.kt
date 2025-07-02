@@ -86,7 +86,7 @@ object Window : Runnable {
         this.renderers.add(object : Renderer {
             val playerQuad: Quad2D = Quad2D().addTexture(TextureManager.loadTexture("tile_testing.png"))
             override fun render() {
-                for(i in 0 until 100000)
+                //for(i in 0 until 100000) testing for low framerate
                 playerQuad.draw(Math.lerp(Player.lastX, Player.x, 0.5f), Math.lerp(Player.lastY, Player.y, 0.5f))
             }
         })
