@@ -3,14 +3,20 @@ package com.cdv.engine.entity
 import com.cdv.engine.components.Component
 import com.cdv.engine.components.ComponentContainer
 import com.cdv.engine.logic.manager.EntityManager
+import com.cdv.engine.world.AABB
 import com.cdv.engine.world.Position
+import com.cdv.engine.world.WorldObject
+import org.joml.Vector2f
 
-open class Entity (
+abstract class Entity (
     val id: String,
-    override var x: Float,
-    override var y: Float,
+    val position: Vector2f,
     override val components: HashMap<String, Component<out Entity>> = HashMap()
-) : Position, ComponentContainer<Entity> {
+) : WorldObject, ComponentContainer<Entity> {
+
+    override fun position(): Vector2f {
+        return position
+    }
 
     init {
         EntityManager.register(this)

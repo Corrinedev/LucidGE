@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11.glEnd
 class HitboxRenderer(val hitbox: AABB) : Renderer {
 
     override fun render() {
+        Camera.apply()
         glBegin(GL11.GL_LINE_LOOP)
         hitbox.apply {
             GL11.glVertex2f(minX, minY)  // bottom-left
@@ -18,6 +19,7 @@ class HitboxRenderer(val hitbox: AABB) : Renderer {
             GL11.glVertex2f(minX, maxY)  // top-left
         }
         glEnd()
+        Camera.end()
     }
 
     override fun priority(): Int {

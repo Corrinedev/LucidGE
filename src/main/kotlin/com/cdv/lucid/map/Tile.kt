@@ -1,29 +1,18 @@
 package com.cdv.lucid.map
 
+import com.cdv.engine.world.AABB
 import org.joml.Vector2f
 
-data class Tile(val pos: Vector2f, val size: Vector2f, val textureId: Int,
+data class Tile(val box: AABB, val textureId: Int,
                 override var collision: Boolean
-) : WorldObject {
+) : ITile {
 
-    fun contains(point: Vector2f): Boolean {
-        return point.x >= pos.x && point.x <= pos.x + size.x &&
-               point.y >= pos.y && point.y <= pos.y + size.y
-    }
-
-    fun intersects(other: Tile): Boolean {
-        return this.pos.x < other.pos.x + other.size.x &&
-               this.pos.x + this.size.x > other.pos.x &&
-               this.pos.y < other.pos.y + other.size.y &&
-               this.pos.y + this.size.y > other.pos.y
+    override fun collider(): AABB? {
+        return box
     }
 
     override fun position(): Vector2f {
-        return pos
-    }
-
-    override fun size(): Vector2f {
-        return size
+        return box.calculateWorldPosition()
     }
 
     override fun texture(): Int {

@@ -1,12 +1,16 @@
 package com.cdv.lucid.player
 
+import com.cdv.engine.components.CollisionComponent
 import com.cdv.engine.components.Component
+import com.cdv.engine.components.MovementComponent
 import com.cdv.engine.input.Keyboard
+import com.cdv.engine.logic.GameLoop
+import com.cdv.engine.world.AABB
 import org.joml.Vector2f
 import org.lwjgl.glfw.GLFW
+import kotlin.collections.emptyList
 
 class PlayerComponent : Component<Player> {
-    val momentum = Vector2f()
     override fun getOwner(): Player {
         return Player
     }
@@ -15,24 +19,19 @@ class PlayerComponent : Component<Player> {
     }
 
     override fun tick() {
+        val movement = Player.getComponent(MovementComponent::class.java)!!
         if(Keyboard.keymap[GLFW.GLFW_KEY_W] ?: false) {
-            momentum.add(0f, 0.005f)
+            movement.momentum.add(0f, 0.005f)
         }
         if(Keyboard.keymap[GLFW.GLFW_KEY_S] ?: false) {
-            momentum.add(0f, -0.005f)
+            movement.momentum.add(0f, -0.005f)
         }
         if(Keyboard.keymap[GLFW.GLFW_KEY_A] ?: false) {
-            momentum.add(-0.005f, 0f)
+            movement.momentum.add(-0.005f, 0f)
         }
         if(Keyboard.keymap[GLFW.GLFW_KEY_D] ?: false) {
-            momentum.add(0.005f, 0f)
+            movement.momentum.add(0.005f, 0f)
         }
-
-        Player.lastX = Player.x
-        Player.lastY = Player.y
-        Player.x += momentum.x
-        Player.y += momentum.y
-        momentum.div(1.25f)
     }
 
     override fun detach() {

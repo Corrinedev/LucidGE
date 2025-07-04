@@ -7,7 +7,7 @@ import com.cdv.engine.window.render.HitboxRenderer
 import org.joml.Vector2f
 
 data class AABB(var minX: Float, var minY: Float, var maxX: Float, var maxY: Float, override val id: String) : Collision {
-    val worldPos: Vector2f = Vector2f(0f, 0f)
+
     init {
         Window.registerRenderer { HitboxRenderer(this) } //debug
         println("AABB created with id: $id")
@@ -48,7 +48,6 @@ data class AABB(var minX: Float, var minY: Float, var maxX: Float, var maxY: Flo
         minY += dy
         maxX += dx
         maxY += dy
-        worldPos.add(dx, dy)
     }
 
     fun expand(amount: Float) {
@@ -75,41 +74,24 @@ data class AABB(var minX: Float, var minY: Float, var maxX: Float, var maxY: Flo
         move(dx, dy)
     }
 
-    fun push(entity: Entity) {
-        if(!entity.hasComponent(CollisionComponent::class.java)) return
-        val collisionHolder: CollisionComponent = entity.getComponent(CollisionComponent::class.java)!!
-
-        for (hitbox in collisionHolder.hitboxes.values) {
-            if (this.intersects(hitbox)) {
-                // Calculate overlap amounts
-                val overlapX = minOf(this.maxX - hitbox.minX, hitbox.maxX - this.minX)
-                val overlapY = minOf(this.maxY - hitbox.minY, hitbox.maxY - this.minY)
-
-                // Separate along the axis with smallest overlap (shortest separation)
-                if (overlapX < overlapY) {
-                    // Separate horizontally
-                    if (this.worldPos.x < hitbox.worldPos.x) {
-                        // Push this hitbox left
-                        move(-overlapX, 0f)
-                    } else {
-                        // Push this hitbox right
-                        move(overlapX, 0f)
-                    }
-                } else {
-                    // Separate vertically
-                    if (this.worldPos.y < hitbox.worldPos.y) {
-                        // Push this hitbox down
-                        move(0f, -overlapY)
-                    } else {
-                        // Push this hitbox up
-                        move(0f, overlapY)
-                    }
-                }
-            }
-        }
+    fun calculateWorldPosition(): Vector2f {
+        return Vector2f((minX + maxX) / 2f, (minY + maxY) / 2f)
     }
 
-    fun calculateWorldPosition(): Vector2f {
-        return worldPos
+    fun intersectsAny(world: World): AABB? {
+        for (aabb in world.objects.mapNotNull { it.collider() }) {
+            if(this.intersects(aabb)) return aabb
+        }
+        return null
+    }
+    fun intersectsAnyDistance(world: World, distance: Float, pos: Vector2f): AABB? {
+        for (aabb in world.objects.filter { it.position().distance(pos) < distance }.mapNotNull { it.collider() }) {
+            if(this.intersects(aabb)) return aabb
+        }
+        return null
+    }
+
+    fun size(): Vector2f {
+        return Vector2f(maxX - minX, maxY - minY)
     }
 }

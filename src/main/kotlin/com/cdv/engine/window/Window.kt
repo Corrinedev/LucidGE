@@ -129,12 +129,12 @@ object Window : Runnable {
 
         shader.bind()
 
-        shader.setUniform("projection", getProjectionMatrix())
+        //shader.setUniform("projection", getProjectionMatrix())
         GL11.glEnable(GL11.GL_TEXTURE_2D)
         for (renderer in renderers) {
             renderer.render()
 
-            shader.setUniform("projection", getProjectionMatrix())
+            //shader.setUniform("projection", getProjectionMatrix())
         }
 
         GL20.glUseProgram(0)

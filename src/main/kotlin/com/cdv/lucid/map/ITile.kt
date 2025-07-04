@@ -1,10 +1,9 @@
 package com.cdv.lucid.map
 
+import com.cdv.engine.world.WorldObject
 import org.joml.Vector2f
 
-interface WorldObject {
-    fun position(): Vector2f
-    fun size(): Vector2f
+interface ITile : WorldObject {
     fun texture(): Int
     var collision: Boolean
 }
